@@ -100,6 +100,7 @@ def main():
 
     WAIT_TIME = 1000.0 / 60.0
     frame_start = time.time()
+    ywav = 0
 
     glfw.set_key_callback(window, key_callback_func)
     
@@ -113,12 +114,12 @@ def main():
         for i in range(100):
             camera_transform_mat = create_transform_mat(0.0, 0.0, 0.0, 0.0, rotation, 0.0, 1.0, 1.0, 1.0)
             perspective = projection * camera_transform_mat * view_matrix
-            transform_mat = create_transform_mat(-0.5+xmov+dxmov, ypos[i]+ymov, -i, 0.0, i*45.0/100, 0.0, 0.5, 0.5, 0.5)
-            transform_mat_global = create_transform_mat(0.0, 0.0, 0.0, 0.0, i*45.0/100.0, 0.0, 1.0, 1.0, 1.0)
+            transform_mat = create_transform_mat(-0.5+xmov+dxmov, ypos[i]+ymov+np.sin(np.deg2rad(10*(i+ywav))), -i, 0.0, -i*45.0/100, 0.0, 0.5, 0.5, 0.5)
+            transform_mat_global = create_transform_mat(0.0, 0.0, 0.0, 0.0, -i*45.0/100.0, 0.0, 1.0, 1.0, 1.0)
             glUniformMatrix4fv(transformLoc, 1, GL_FALSE, perspective * transform_mat_global * transform_mat)
             glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, None)
 
-            transform_mat = create_transform_mat(0.5+xmov+dxmov, ypos[i]+ymov, -i, 0.0, i*45.0/100, 0.0, 0.5, 0.5, 0.5)
+            transform_mat = create_transform_mat(0.5+xmov+dxmov, ypos[i]+ymov+np.cos(np.deg2rad(10*(i+ywav))), -i, 0.0, i*45.0/100, 0.0, 0.5, 0.5, 0.5)
             transform_mat_global = create_transform_mat(0.0, 0.0, 0.0, 0.0, i*45.0/100.0, 0.0, 1.0, 1.0, 1.0)
             glUniformMatrix4fv(transformLoc, 1, GL_FALSE, perspective * transform_mat_global * transform_mat)
             glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, None)
@@ -128,6 +129,7 @@ def main():
             duration = (WAIT_TIME - (time.time() - frame_start))
             time.sleep(duration / 1000.0)
         frame_start = time.time()
+        ywav = (ywav + 1) % 260
 
     glfw.terminate()
 
