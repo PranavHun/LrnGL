@@ -7,5 +7,5 @@ uniform mat4 transform;
 void main() {
     vec4 pos = transform * vec4(position, 1.0f);
     gl_Position = pos;
-    newColor = vec3(1.0f, 1.0f, 1.0f) / abs(pos.z);
+    newColor = vec3(1.0f, 1.0f, 1.0f); // / abs(pos.z);
 }
