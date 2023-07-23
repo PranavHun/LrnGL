@@ -2,13 +2,17 @@
 
 // in float width;
 // in float height;
-
+uniform float zoom;
+uniform float pan_x;
+uniform float pan_y;
 out vec4 outColor;
 
 void main() {
-
-    float x0 = (gl_FragCoord.x/1920.0) * 2.47 - 2.0;
-    float y0 = (gl_FragCoord.y/1080.0) * 2.24 - 1.12;
+    //full range of mandlebrot set
+    //float x0 = (gl_FragCoord.x/1920.0) * 2.47 - 2.0;
+    //float y0 = (gl_FragCoord.y/1080.0) * 2.24 - 1.12;
+    float x0 = ((gl_FragCoord.x/1920.0) * 2.47 - 2.0)/zoom + pan_x;
+    float y0 = ((gl_FragCoord.y/1080.0) * 2.24 - 1.12)/zoom + pan_y;
     
     float xtemp;
     float x = 0.0;
